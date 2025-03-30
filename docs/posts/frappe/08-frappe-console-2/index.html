@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+<link rel="stylesheet" href="/application.6a5cdf7499f781bae02ed80dbc345e1b18e8cf6108d1808a7d1fbbf08e5c006e.css" integrity="sha256-alzfdJn3gbrgLtgNvDReGxjoz2EI0YCKfR&#43;78I5cAG4=" />
+
+
+
+
+
+
+
+<meta property="og:url" content="https://exiahuang.github.io/posts/frappe/08-frappe-console-2/">
+  <meta property="og:site_name" content="Exia.Huang">
+  <meta property="og:title" content="Exia.Huang">
+  <meta property="og:description" content="✅ 如何查看导入的 Fields（字段） 你已经成功使用 bench --site 导入了 Custom Field，现在可以通过以下方式查看这些字段：
+🔹 方法 1：在 Frappe 后台 UI 中查看 登录 Frappe（浏览器访问 http://localhost:8000 或 http://your-domain.com）。
+打开 “Customize Form”（自定义表单）
+：
+在 “Awesome Bar” 搜索 “Customize Form” 并打开。 选择 你导入字段的 DocType（比如 Item）。 向下滚动，检查导入的字段是否已显示。 🔹 方法 2：通过 “Custom Field” 列表查看 在 “Awesome Bar” 搜索 “Custom Field” 并打开。 在 搜索框 输入 目标 DocType（如 Item）。 你应该能看到所有关联的 自定义字段（Custom Fields）。 🔹 方法 3：使用 Frappe Shell 查询 如果你想在命令行中确认字段是否导入成功：
+进入 Frappe Shell
+bench --site your-site console 查询某个 DocType 的自定义字段">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Exia.Huang">
+  <meta name="twitter:description" content="✅ 如何查看导入的 Fields（字段） 你已经成功使用 bench --site 导入了 Custom Field，现在可以通过以下方式查看这些字段：
+🔹 方法 1：在 Frappe 后台 UI 中查看 登录 Frappe（浏览器访问 http://localhost:8000 或 http://your-domain.com）。
+打开 “Customize Form”（自定义表单）
+：
+在 “Awesome Bar” 搜索 “Customize Form” 并打开。 选择 你导入字段的 DocType（比如 Item）。 向下滚动，检查导入的字段是否已显示。 🔹 方法 2：通过 “Custom Field” 列表查看 在 “Awesome Bar” 搜索 “Custom Field” 并打开。 在 搜索框 输入 目标 DocType（如 Item）。 你应该能看到所有关联的 自定义字段（Custom Fields）。 🔹 方法 3：使用 Frappe Shell 查询 如果你想在命令行中确认字段是否导入成功：
+进入 Frappe Shell
+bench --site your-site console 查询某个 DocType 的自定义字段">
+
+    
+    
+<meta name="description" content="" />
+
+
+
+    
+
+    
+        
+            
+            
+                
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-02B7V57RLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( null ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-02B7V57RLL');
+        }
+      </script>
+            
+
+            
+            
+
+            
+            
+
+            
+            
+
+            
+
+            
+
+            
+        
+    
+
+
+
+
+
+    <script integrity="sha256-DO4ugzEwhTW1Id1UIWn0gUJWaebCYOypeTit6LW4QB4=">
+     let theme = localStorage.getItem('theme-scheme') || localStorage.getItem('darkmode:color-scheme') || 'light'
+if (theme === 'system') {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme = 'dark'
+  } else {
+    theme = 'light'
+  }
+}
+document.documentElement.setAttribute('data-theme', theme)
+
+    </script>
+    
+  </head>
+
+  <body class="type-posts kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Exia.Huang</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
+        
+          
+          
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#about">About</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#skills">Skills</a>
+                </li>
+              
+            
+            
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#projects">Projects</a>
+                </li>
+              
+            
+            
+            
+            
+            
+            
+          
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  
+</nav>
+
+
+
+      
+      
+  <section class="sidebar-section" id="sidebar-section">
+    <div class="sidebar-holder">
+      <div class="sidebar" id="sidebar">
+        <form class="mx-auto" method="get" action="/search">
+          <input type="text" name="keyword" value="" placeholder="Search" data-search="" id="search-box" />
+        </form>
+        <div class="sidebar-tree">
+          <ul class="tree" id="tree">
+            <li id="list-heading"><a href="/posts/" data-filter="all">Posts</a></li>
+            <div class="subtree">
+                
+  
+  
+  
+  
+  
+    
+    <li><a class=" list-link" href="/posts/introduction/" title="Introduction">Introduction</a></li>
+  
+
+
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      
+      <div class="hero-area col-sm-12" id="hero-area" style='background-image: url(/images/default-hero.jpg);'>
+      </div>
+
+      
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/exia001_hu_a184b916d2edc497.jpg' alt="Author Image">
+          <h5 class="author-name">Exia Huang</h5>
+          <p class="text-muted">Monday, January 1, 1</p>
+        </div>
+        
+
+        <div class="title">
+          <h1></h1>
+        </div>
+
+        
+
+        
+        <div class="post-content" id="post-content">
+          <h3 id="-如何查看导入的-fields字段"><strong>✅ 如何查看导入的 Fields（字段）</strong></h3>
+<p>你已经成功使用 <code>bench --site</code> 导入了 <code>Custom Field</code>，现在可以通过以下方式查看这些字段：</p>
+<hr>
+<h2 id="-方法-1在-frappe-后台-ui-中查看"><strong>🔹 方法 1：在 Frappe 后台 UI 中查看</strong></h2>
+<ol>
+<li>
+<p><strong>登录 Frappe</strong>（浏览器访问 <code>http://localhost:8000</code> 或 <code>http://your-domain.com</code>）。</p>
+</li>
+<li>
+<p>打开 &ldquo;Customize Form&rdquo;（自定义表单）</p>
+<p>：</p>
+<ul>
+<li>在 <strong>&ldquo;Awesome Bar&rdquo;</strong> 搜索 <strong>&ldquo;Customize Form&rdquo;</strong> 并打开。</li>
+<li>选择 <strong>你导入字段的 DocType</strong>（比如 <code>Item</code>）。</li>
+<li>向下滚动，检查导入的字段是否已显示。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="-方法-2通过"><strong>🔹 方法 2：通过 &ldquo;Custom Field&rdquo; 列表查看</strong></h2>
+<ol>
+<li>在 <strong>&ldquo;Awesome Bar&rdquo;</strong> 搜索 <strong>&ldquo;Custom Field&rdquo;</strong> 并打开。</li>
+<li>在 <strong>搜索框</strong> 输入 <strong>目标 DocType</strong>（如 <code>Item</code>）。</li>
+<li>你应该能看到所有关联的 <strong>自定义字段（Custom Fields）</strong>。</li>
+</ol>
+<hr>
+<h2 id="-方法-3使用-frappe-shell-查询"><strong>🔹 方法 3：使用 Frappe Shell 查询</strong></h2>
+<p>如果你想在命令行中确认字段是否导入成功：</p>
+<ol>
+<li>
+<p>进入 Frappe Shell</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bench --site your-site console
+</span></span></code></pre></div></li>
+<li>
+<p>查询某个 DocType 的自定义字段</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> frappe
+</span></span><span style="display:flex;"><span>fields <span style="color:#f92672">=</span> frappe<span style="color:#f92672">.</span>get_all(<span style="color:#e6db74">&#34;Custom Field&#34;</span>, filters<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;dt&#34;</span>: <span style="color:#e6db74">&#34;Item&#34;</span>}, fields<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;fieldname&#34;</span>, <span style="color:#e6db74">&#34;label&#34;</span>, <span style="color:#e6db74">&#34;fieldtype&#34;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> field <span style="color:#f92672">in</span> fields:
+</span></span><span style="display:flex;"><span>    print(field)
+</span></span></code></pre></div><p>📌</p>
+<p>示例输出</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{<span style="color:#960050;background-color:#1e0010">&#39;fieldname&#39;:</span> <span style="color:#960050;background-color:#1e0010">&#39;new_field_1&#39;,</span> <span style="color:#960050;background-color:#1e0010">&#39;label&#39;:</span> <span style="color:#960050;background-color:#1e0010">&#39;New</span> <span style="color:#960050;background-color:#1e0010">Field</span> <span style="color:#960050;background-color:#1e0010">1&#39;,</span> <span style="color:#960050;background-color:#1e0010">&#39;fieldtype&#39;:</span> <span style="color:#960050;background-color:#1e0010">&#39;Data&#39;</span>}
+</span></span><span style="display:flex;"><span>{<span style="color:#960050;background-color:#1e0010">&#39;fieldname&#39;:</span> <span style="color:#960050;background-color:#1e0010">&#39;new_field_2&#39;,</span> <span style="color:#960050;background-color:#1e0010">&#39;label&#39;:</span> <span style="color:#960050;background-color:#1e0010">&#39;New</span> <span style="color:#960050;background-color:#1e0010">Field</span> <span style="color:#960050;background-color:#1e0010">2&#39;,</span> <span style="color:#960050;background-color:#1e0010">&#39;fieldtype&#39;:</span> <span style="color:#960050;background-color:#1e0010">&#39;Int&#39;</span>}
+</span></span></code></pre></div></li>
+</ol>
+<hr>
+<h2 id="-方法-4数据库直接查询"><strong>🔹 方法 4：数据库直接查询</strong></h2>
+<p>如果你怀疑数据没有正确写入数据库，可以进入 MariaDB 直接查询：</p>
+<ol>
+<li>
+<p>进入数据库：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bench --site your-site mariadb
+</span></span></code></pre></div></li>
+<li>
+<p>查询</p>
+<pre tabindex="0"><code>Custom Field
+</code></pre><p>表：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> fieldname, label, fieldtype <span style="color:#66d9ef">FROM</span> <span style="color:#f92672">`</span>tabCustom Field<span style="color:#f92672">`</span> <span style="color:#66d9ef">WHERE</span> dt <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Item&#39;</span>;
+</span></span></code></pre></div><p>示例输出</p>
+<pre tabindex="0"><code>+-------------+-------------+----------+
+| fieldname   | label       | fieldtype |
++-------------+-------------+----------+
+| new_field_1 | New Field 1 | Data     |
+| new_field_2 | New Field 2 | Int      |
++-------------+-------------+----------+
+</code></pre></li>
+</ol>
+<hr>
+<h2 id="-方法-5使用-rest-api-查询"><strong>🔹 方法 5：使用 REST API 查询</strong></h2>
+<p>如果你想用 API 确认字段是否导入成功，可以调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X GET <span style="color:#e6db74">&#34;http://your-site.com/api/resource/Custom Field?filters=[[%22dt%22,%22=%22,%22Item%22]]&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -H <span style="color:#e6db74">&#34;Authorization: token your-api-key:your-api-secret&#34;</span>
+</span></span></code></pre></div><p>或者用 <strong>Python</strong> 访问：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://your-site.com/api/resource/Custom Field&#34;</span>
+</span></span><span style="display:flex;"><span>params <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;filters&#34;</span>: <span style="color:#e6db74">&#39;[[&#34;dt&#34;, &#34;=&#34;, &#34;Item&#34;]]&#39;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Authorization&#34;</span>: <span style="color:#e6db74">&#34;token your-api-key:your-api-secret&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url, params<span style="color:#f92672">=</span>params, headers<span style="color:#f92672">=</span>headers)
+</span></span><span style="display:flex;"><span>print(response<span style="color:#f92672">.</span>json())
+</span></span></code></pre></div><hr>
+<h2 id="-总结"><strong>🔹 总结</strong></h2>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>适用场景</th>
+          <th>操作方式</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>UI: Customize Form</strong></td>
+          <td>适合手动检查字段是否导入</td>
+          <td>在 Frappe 界面搜索 <code>&quot;Customize Form&quot;</code></td>
+      </tr>
+      <tr>
+          <td><strong>UI: Custom Field</strong></td>
+          <td>直接列出所有导入的字段</td>
+          <td>在 Frappe 界面搜索 <code>&quot;Custom Field&quot;</code></td>
+      </tr>
+      <tr>
+          <td><strong>Frappe Shell</strong></td>
+          <td>适合开发者快速查询</td>
+          <td><code>bench --site your-site console</code></td>
+      </tr>
+      <tr>
+          <td><strong>数据库查询</strong></td>
+          <td>数据库级别检查</td>
+          <td><code>SELECT * FROM tabCustom Field;</code></td>
+      </tr>
+      <tr>
+          <td><strong>REST API</strong></td>
+          <td>远程验证字段是否存在</td>
+          <td><code>curl http://your-site.com/api/resource/Custom Field</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>你想用哪种方式查看？😊</p>
+
+        </div>
+
+        
+        <div class="row ps-3 pe-3">
+        
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+        
+        
+        </div>
+
+
+
+      
+      <hr />
+        
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+
+
+<div class="row next-prev-navigator">
+  
+  
+</div>
+
+      <hr />
+
+      
+      
+
+      
+      
+
+      </div>
+    </div>
+  </div>
+  
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+      
+  <section class="toc-section" id="toc-section">
+    
+    <div class="toc-holder">
+      <h5 class="text-center ps-3">Table of Contents</h5>
+      <hr>
+      <div class="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#-如何查看导入的-fields字段"><strong>✅ 如何查看导入的 Fields（字段）</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#-方法-1在-frappe-后台-ui-中查看"><strong>🔹 方法 1：在 Frappe 后台 UI 中查看</strong></a></li>
+    <li><a href="#-方法-2通过"><strong>🔹 方法 2：通过 &ldquo;Custom Field&rdquo; 列表查看</strong></a></li>
+    <li><a href="#-方法-3使用-frappe-shell-查询"><strong>🔹 方法 3：使用 Frappe Shell 查询</strong></a></li>
+    <li><a href="#-方法-4数据库直接查询"><strong>🔹 方法 4：数据库直接查询</strong></a></li>
+    <li><a href="#-方法-5使用-rest-api-查询"><strong>🔹 方法 5：使用 REST API 查询</strong></a></li>
+    <li><a href="#-总结"><strong>🔹 总结</strong></a></li>
+  </ul>
+</nav>
+      </div>
+    </div>
+    
+  </section>
+
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+
+  
+  
+    
+    
+      
+    
+  
+
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start">
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Navigation</h5>
+          
+          <ul>
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#about">About</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#skills">Skills</a>
+                </li>
+              
+              
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#projects">Projects</a>
+                </li>
+              
+              
+              
+              
+              
+              
+            
+              
+            
+          </ul>
+          
+        </div>
+        
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Contact me:</h5>
+          <ul>
+            
+              
+                <li><a href=mailto:exia.dev@outlook.com target="_blank" rel="noopener">
+                  <span><i class="fas fa-envelope"></i></span> <span>exia.dev@outlook.com</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://github.com/exiahuang target="_blank" rel="noopener">
+                  <span><i class="fab fa-github"></i></span> <span>exiahuang</span>
+                </a></li>
+              
+            
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_b3360284c55cf72d.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2020 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/application.a25d0a72b149f87926690ec805b6bec8f78980aaf07d94b7e9adad6a0684c757.js" integrity="sha256-ol0KcrFJ&#43;HkmaQ7IBba&#43;yPeJgKrwfZS36a2tagaEx1c=" defer></script>
+
+
+    
+     
+
+    
+</body>
+</html>

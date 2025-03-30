@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+<link rel="stylesheet" href="/application.6a5cdf7499f781bae02ed80dbc345e1b18e8cf6108d1808a7d1fbbf08e5c006e.css" integrity="sha256-alzfdJn3gbrgLtgNvDReGxjoz2EI0YCKfR&#43;78I5cAG4=" />
+
+
+
+
+
+
+
+<meta property="og:url" content="https://exiahuang.github.io/posts/frappe/03-frappe-data-import/">
+  <meta property="og:site_name" content="Exia.Huang">
+  <meta property="og:title" content="Exia.Huang">
+  <meta property="og:description" content="Frappe 如何批量导入DocType？
+Data Import
+在 Frappe 框架中，批量导入 DocType 数据（如创建多个记录）有几种方法：
+1. 使用 Data Import Tool Frappe 提供了 Data Import Tool，可以通过 CSV/Excel 批量导入 DocType 数据。
+步骤：
+进入 Frappe 后台（Desk）
+在“Awesome Bar”（顶部搜索栏）输入 Data Import 并进入页面。
+选择 要导入的 DocType（如 Item, Customer, Sales Invoice 等）。
+点击
+Download Template
+，选择：
+“Only Mandatory Fields” （仅必填字段） “All Fields” （所有字段） 在下载的模板中填写数据，并保存为 CSV/Excel。
+在 Data Import 页面上传文件并点击 Start Import。
+2. 使用 Frappe API 如果要通过代码批量创建，可以使用 Frappe 的 REST API 或 Python 脚本：">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Exia.Huang">
+  <meta name="twitter:description" content="Frappe 如何批量导入DocType？
+Data Import
+在 Frappe 框架中，批量导入 DocType 数据（如创建多个记录）有几种方法：
+1. 使用 Data Import Tool Frappe 提供了 Data Import Tool，可以通过 CSV/Excel 批量导入 DocType 数据。
+步骤：
+进入 Frappe 后台（Desk）
+在“Awesome Bar”（顶部搜索栏）输入 Data Import 并进入页面。
+选择 要导入的 DocType（如 Item, Customer, Sales Invoice 等）。
+点击
+Download Template
+，选择：
+“Only Mandatory Fields” （仅必填字段） “All Fields” （所有字段） 在下载的模板中填写数据，并保存为 CSV/Excel。
+在 Data Import 页面上传文件并点击 Start Import。
+2. 使用 Frappe API 如果要通过代码批量创建，可以使用 Frappe 的 REST API 或 Python 脚本：">
+
+    
+    
+<meta name="description" content="" />
+
+
+
+    
+
+    
+        
+            
+            
+                
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-02B7V57RLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( null ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-02B7V57RLL');
+        }
+      </script>
+            
+
+            
+            
+
+            
+            
+
+            
+            
+
+            
+
+            
+
+            
+        
+    
+
+
+
+
+
+    <script integrity="sha256-DO4ugzEwhTW1Id1UIWn0gUJWaebCYOypeTit6LW4QB4=">
+     let theme = localStorage.getItem('theme-scheme') || localStorage.getItem('darkmode:color-scheme') || 'light'
+if (theme === 'system') {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme = 'dark'
+  } else {
+    theme = 'light'
+  }
+}
+document.documentElement.setAttribute('data-theme', theme)
+
+    </script>
+    
+  </head>
+
+  <body class="type-posts kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Exia.Huang</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
+        
+          
+          
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#about">About</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#skills">Skills</a>
+                </li>
+              
+            
+            
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#projects">Projects</a>
+                </li>
+              
+            
+            
+            
+            
+            
+            
+          
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  
+</nav>
+
+
+
+      
+      
+  <section class="sidebar-section" id="sidebar-section">
+    <div class="sidebar-holder">
+      <div class="sidebar" id="sidebar">
+        <form class="mx-auto" method="get" action="/search">
+          <input type="text" name="keyword" value="" placeholder="Search" data-search="" id="search-box" />
+        </form>
+        <div class="sidebar-tree">
+          <ul class="tree" id="tree">
+            <li id="list-heading"><a href="/posts/" data-filter="all">Posts</a></li>
+            <div class="subtree">
+                
+  
+  
+  
+  
+  
+    
+    <li><a class=" list-link" href="/posts/introduction/" title="Introduction">Introduction</a></li>
+  
+
+
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      
+      <div class="hero-area col-sm-12" id="hero-area" style='background-image: url(/images/default-hero.jpg);'>
+      </div>
+
+      
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/exia001_hu_a184b916d2edc497.jpg' alt="Author Image">
+          <h5 class="author-name">Exia Huang</h5>
+          <p class="text-muted">Monday, January 1, 1</p>
+        </div>
+        
+
+        <div class="title">
+          <h1></h1>
+        </div>
+
+        
+
+        
+        <div class="post-content" id="post-content">
+          <p>Frappe 如何批量导入DocType？</p>
+<p><a href="https://docs.frappe.io/erpnext/user/manual/en/data-import" target="_blank" rel="noopener">Data Import</a></p>
+<p>在 Frappe 框架中，批量导入 DocType 数据（如创建多个记录）有几种方法：</p>
+<h3 id="1-使用-data-import-tool">1. <strong>使用 Data Import Tool</strong></h3>
+<p>Frappe 提供了 <strong>Data Import Tool</strong>，可以通过 CSV/Excel 批量导入 DocType 数据。</p>
+<p><strong>步骤：</strong></p>
+<ol>
+<li>
+<p><strong>进入 Frappe 后台（Desk）</strong></p>
+</li>
+<li>
+<p>在“Awesome Bar”（顶部搜索栏）输入 <strong>Data Import</strong> 并进入页面。</p>
+</li>
+<li>
+<p>选择 <strong>要导入的 DocType</strong>（如 Item, Customer, Sales Invoice 等）。</p>
+</li>
+<li>
+<p>点击</p>
+<p>Download Template</p>
+<p>，选择：</p>
+<ul>
+<li>“Only Mandatory Fields” （仅必填字段）</li>
+<li>“All Fields” （所有字段）</li>
+</ul>
+</li>
+<li>
+<p>在下载的模板中填写数据，并保存为 CSV/Excel。</p>
+</li>
+<li>
+<p>在 Data Import 页面上传文件并点击 <strong>Start Import</strong>。</p>
+</li>
+</ol>
+<hr>
+<h3 id="2-使用-frappe-api">2. <strong>使用 Frappe API</strong></h3>
+<p>如果要通过代码批量创建，可以使用 Frappe 的 REST API 或 Python 脚本：</p>
+<h4 id="使用-rest-api">使用 REST API：</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X POST https://your-site.com/api/resource/YourDocType <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -H <span style="color:#e6db74">&#34;Authorization: token your-api-key:your-api-secret&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -d <span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;fieldname1&#34;: &#34;value1&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;fieldname2&#34;: &#34;value2&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }&#39;</span>
+</span></span></code></pre></div><h4 id="使用-python-脚本">使用 Python 脚本：</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> frappe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bulk_create_records</span>():
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#34;doctype&#34;</span>: <span style="color:#e6db74">&#34;YourDocType&#34;</span>, <span style="color:#e6db74">&#34;field1&#34;</span>: <span style="color:#e6db74">&#34;value1&#34;</span>, <span style="color:#e6db74">&#34;field2&#34;</span>: <span style="color:#e6db74">&#34;value2&#34;</span>},
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#34;doctype&#34;</span>: <span style="color:#e6db74">&#34;YourDocType&#34;</span>, <span style="color:#e6db74">&#34;field1&#34;</span>: <span style="color:#e6db74">&#34;value3&#34;</span>, <span style="color:#e6db74">&#34;field2&#34;</span>: <span style="color:#e6db74">&#34;value4&#34;</span>},
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> record <span style="color:#f92672">in</span> data:
+</span></span><span style="display:flex;"><span>        doc <span style="color:#f92672">=</span> frappe<span style="color:#f92672">.</span>get_doc(record)
+</span></span><span style="display:flex;"><span>        doc<span style="color:#f92672">.</span>insert()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    frappe<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>commit()  <span style="color:#75715e"># 提交数据库事务</span>
+</span></span></code></pre></div><hr>
+<h3 id="3-使用-sql-直接插入">3. <strong>使用 SQL 直接插入</strong></h3>
+<p>如果数据量很大，可以直接使用 SQL 进行批量插入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> frappe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bulk_insert_via_sql</span>():
+</span></span><span style="display:flex;"><span>    records <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        (<span style="color:#e6db74">&#34;value1&#34;</span>, <span style="color:#e6db74">&#34;value2&#34;</span>),
+</span></span><span style="display:flex;"><span>        (<span style="color:#e6db74">&#34;value3&#34;</span>, <span style="color:#e6db74">&#34;value4&#34;</span>),
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>    query <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;INSERT INTO `tabYourDocType` (`field1`, `field2`) VALUES (</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">, </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">)&#34;</span>
+</span></span><span style="display:flex;"><span>    frappe<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>sql(query, records, multi<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    frappe<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>commit()
+</span></span></code></pre></div><p>⚠️ <strong>注意</strong>：直接使用 SQL 可能会绕过 Frappe 的业务逻辑，谨慎使用。</p>
+<hr>
+<h3 id="4-使用-custom-script--background-job">4. <strong>使用 Custom Script + Background Job</strong></h3>
+<p>如果数据量过大，考虑使用 <strong>Background Job</strong> 处理：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> frappe
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> frappe.utils.background_jobs <span style="color:#f92672">import</span> enqueue
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bulk_create</span>():
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#34;doctype&#34;</span>: <span style="color:#e6db74">&#34;YourDocType&#34;</span>, <span style="color:#e6db74">&#34;field1&#34;</span>: <span style="color:#e6db74">&#34;value1&#34;</span>, <span style="color:#e6db74">&#34;field2&#34;</span>: <span style="color:#e6db74">&#34;value2&#34;</span>},
+</span></span><span style="display:flex;"><span>        {<span style="color:#e6db74">&#34;doctype&#34;</span>: <span style="color:#e6db74">&#34;YourDocType&#34;</span>, <span style="color:#e6db74">&#34;field1&#34;</span>: <span style="color:#e6db74">&#34;value3&#34;</span>, <span style="color:#e6db74">&#34;field2&#34;</span>: <span style="color:#e6db74">&#34;value4&#34;</span>},
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>    enqueue(create_records, queue<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;long&#34;</span>, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">600</span>, job_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bulk_create_records&#34;</span>, data<span style="color:#f92672">=</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_records</span>(data):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> record <span style="color:#f92672">in</span> data:
+</span></span><span style="display:flex;"><span>        doc <span style="color:#f92672">=</span> frappe<span style="color:#f92672">.</span>get_doc(record)
+</span></span><span style="display:flex;"><span>        doc<span style="color:#f92672">.</span>insert()
+</span></span><span style="display:flex;"><span>    frappe<span style="color:#f92672">.</span>db<span style="color:#f92672">.</span>commit()
+</span></span></code></pre></div><hr>
+<h3 id="5-使用-bench-命令行">5. <strong>使用 Bench 命令行</strong></h3>
+<p>如果要导入 JSON 数据：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bench --site your-site execute your_app.module.create_records
+</span></span></code></pre></div><p>你需要在 <code>your_app.module</code> 里定义 <code>create_records</code> 方法来处理导入。</p>
+<hr>
+<h2 id="总结">总结</h2>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>适用场景</th>
+          <th>难度</th>
+          <th>备注</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Data Import Tool</td>
+          <td>适用于非技术用户，Excel/CSV 导入</td>
+          <td>简单</td>
+          <td>推荐</td>
+      </tr>
+      <tr>
+          <td>REST API</td>
+          <td>适用于外部系统集成</td>
+          <td>中等</td>
+          <td>需 API 访问权限</td>
+      </tr>
+      <tr>
+          <td>Python 脚本</td>
+          <td>适用于开发者</td>
+          <td>中等</td>
+          <td>适合后台任务</td>
+      </tr>
+      <tr>
+          <td>SQL 插入</td>
+          <td>适用于大规模数据导入</td>
+          <td>高</td>
+          <td>可能绕过业务逻辑</td>
+      </tr>
+      <tr>
+          <td>Background Job</td>
+          <td>适用于批量任务</td>
+          <td>高</td>
+          <td>避免超时</td>
+      </tr>
+  </tbody>
+</table>
+<p>你更倾向哪种方式？需要更详细的示例吗？😊</p>
+
+        </div>
+
+        
+        <div class="row ps-3 pe-3">
+        
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+        
+        
+        </div>
+
+
+
+      
+      <hr />
+        
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+
+
+<div class="row next-prev-navigator">
+  
+  
+</div>
+
+      <hr />
+
+      
+      
+
+      
+      
+
+      </div>
+    </div>
+  </div>
+  
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+      
+  <section class="toc-section" id="toc-section">
+    
+    <div class="toc-holder">
+      <h5 class="text-center ps-3">Table of Contents</h5>
+      <hr>
+      <div class="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-使用-data-import-tool">1. <strong>使用 Data Import Tool</strong></a></li>
+        <li><a href="#2-使用-frappe-api">2. <strong>使用 Frappe API</strong></a>
+          <ul>
+            <li><a href="#使用-rest-api">使用 REST API：</a></li>
+            <li><a href="#使用-python-脚本">使用 Python 脚本：</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-使用-sql-直接插入">3. <strong>使用 SQL 直接插入</strong></a></li>
+        <li><a href="#4-使用-custom-script--background-job">4. <strong>使用 Custom Script + Background Job</strong></a></li>
+        <li><a href="#5-使用-bench-命令行">5. <strong>使用 Bench 命令行</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+      </div>
+    </div>
+    
+  </section>
+
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+
+  
+  
+    
+    
+      
+    
+  
+
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start">
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Navigation</h5>
+          
+          <ul>
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#about">About</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#skills">Skills</a>
+                </li>
+              
+              
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#projects">Projects</a>
+                </li>
+              
+              
+              
+              
+              
+              
+            
+              
+            
+          </ul>
+          
+        </div>
+        
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Contact me:</h5>
+          <ul>
+            
+              
+                <li><a href=mailto:exia.dev@outlook.com target="_blank" rel="noopener">
+                  <span><i class="fas fa-envelope"></i></span> <span>exia.dev@outlook.com</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://github.com/exiahuang target="_blank" rel="noopener">
+                  <span><i class="fab fa-github"></i></span> <span>exiahuang</span>
+                </a></li>
+              
+            
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_b3360284c55cf72d.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2020 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/application.a25d0a72b149f87926690ec805b6bec8f78980aaf07d94b7e9adad6a0684c757.js" integrity="sha256-ol0KcrFJ&#43;HkmaQ7IBba&#43;yPeJgKrwfZS36a2tagaEx1c=" defer></script>
+
+
+    
+     
+
+    
+</body>
+</html>

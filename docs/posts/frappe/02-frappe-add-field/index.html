@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+<link rel="stylesheet" href="/application.6a5cdf7499f781bae02ed80dbc345e1b18e8cf6108d1808a7d1fbbf08e5c006e.css" integrity="sha256-alzfdJn3gbrgLtgNvDReGxjoz2EI0YCKfR&#43;78I5cAG4=" />
+
+
+
+
+
+
+
+<meta property="og:url" content="https://exiahuang.github.io/posts/frappe/02-frappe-add-field/">
+  <meta property="og:site_name" content="Exia.Huang">
+  <meta property="og:title" content="Exia.Huang">
+  <meta property="og:description" content="Document API
+在 Frappe 中，批量创建 Field（字段） 可以通过以下几种方式实现：
+方法 1：使用 Python 脚本（推荐） Frappe 提供了 frappe.get_doc() 方法，可以用 Python 批量向 某个 DocType 添加多个字段（Field）。
+示例：批量添加字段到一个自定义 DocType import frappedef add_custom_fields():doctype_name = &#34;YourDocType&#34; # 替换为你的目标 DocTypefields = [{&#34;fieldname&#34;: &#34;new_field_1&#34;, &#34;label&#34;: &#34;New Field 1&#34;, &#34;fieldtype&#34;: &#34;Data&#34;},{&#34;fieldname&#34;: &#34;new_field_2&#34;, &#34;label&#34;: &#34;New Field 2&#34;, &#34;fieldtype&#34;: &#34;Int&#34;},{&#34;fieldname&#34;: &#34;new_field_3&#34;, &#34;label&#34;: &#34;New Field 3&#34;, &#34;fieldtype&#34;: &#34;Date&#34;},]for field in fields:if not frappe.db.exists(&#34;Custom Field&#34;, {&#34;dt&#34;: doctype_name, &#34;fieldname&#34;: field[&#34;fieldname&#34;]}):doc = frappe.get_doc({&#34;doctype&#34;: &#34;Custom Field&#34;,&#34;dt&#34;: doctype_name, # 目标 DocType&#34;fieldname&#34;: field[&#34;fieldname&#34;],&#34;label&#34;: field[&#34;label&#34;],&#34;fieldtype&#34;: field[&#34;fieldtype&#34;],&#34;insert_after&#34;: &#34;description&#34; # 你可以修改这个值})doc.insert()frappe.db.commit()print(&#34;Fields added successfully!&#34;)# 运行该函数add_custom_fields() 📌 说明">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Exia.Huang">
+  <meta name="twitter:description" content="Document API
+在 Frappe 中，批量创建 Field（字段） 可以通过以下几种方式实现：
+方法 1：使用 Python 脚本（推荐） Frappe 提供了 frappe.get_doc() 方法，可以用 Python 批量向 某个 DocType 添加多个字段（Field）。
+示例：批量添加字段到一个自定义 DocType import frappedef add_custom_fields():doctype_name = &#34;YourDocType&#34; # 替换为你的目标 DocTypefields = [{&#34;fieldname&#34;: &#34;new_field_1&#34;, &#34;label&#34;: &#34;New Field 1&#34;, &#34;fieldtype&#34;: &#34;Data&#34;},{&#34;fieldname&#34;: &#34;new_field_2&#34;, &#34;label&#34;: &#34;New Field 2&#34;, &#34;fieldtype&#34;: &#34;Int&#34;},{&#34;fieldname&#34;: &#34;new_field_3&#34;, &#34;label&#34;: &#34;New Field 3&#34;, &#34;fieldtype&#34;: &#34;Date&#34;},]for field in fields:if not frappe.db.exists(&#34;Custom Field&#34;, {&#34;dt&#34;: doctype_name, &#34;fieldname&#34;: field[&#34;fieldname&#34;]}):doc = frappe.get_doc({&#34;doctype&#34;: &#34;Custom Field&#34;,&#34;dt&#34;: doctype_name, # 目标 DocType&#34;fieldname&#34;: field[&#34;fieldname&#34;],&#34;label&#34;: field[&#34;label&#34;],&#34;fieldtype&#34;: field[&#34;fieldtype&#34;],&#34;insert_after&#34;: &#34;description&#34; # 你可以修改这个值})doc.insert()frappe.db.commit()print(&#34;Fields added successfully!&#34;)# 运行该函数add_custom_fields() 📌 说明">
+
+    
+    
+<meta name="description" content="" />
+
+
+
+    
+
+    
+        
+            
+            
+                
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-02B7V57RLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( null ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-02B7V57RLL');
+        }
+      </script>
+            
+
+            
+            
+
+            
+            
+
+            
+            
+
+            
+
+            
+
+            
+        
+    
+
+
+
+
+
+    <script integrity="sha256-DO4ugzEwhTW1Id1UIWn0gUJWaebCYOypeTit6LW4QB4=">
+     let theme = localStorage.getItem('theme-scheme') || localStorage.getItem('darkmode:color-scheme') || 'light'
+if (theme === 'system') {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme = 'dark'
+  } else {
+    theme = 'light'
+  }
+}
+document.documentElement.setAttribute('data-theme', theme)
+
+    </script>
+    
+  </head>
+
+  <body class="type-posts kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Exia.Huang</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
+        
+          
+          
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#about">About</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#skills">Skills</a>
+                </li>
+              
+            
+            
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#projects">Projects</a>
+                </li>
+              
+            
+            
+            
+            
+            
+            
+          
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  
+</nav>
+
+
+
+      
+      
+  <section class="sidebar-section" id="sidebar-section">
+    <div class="sidebar-holder">
+      <div class="sidebar" id="sidebar">
+        <form class="mx-auto" method="get" action="/search">
+          <input type="text" name="keyword" value="" placeholder="Search" data-search="" id="search-box" />
+        </form>
+        <div class="sidebar-tree">
+          <ul class="tree" id="tree">
+            <li id="list-heading"><a href="/posts/" data-filter="all">Posts</a></li>
+            <div class="subtree">
+                
+  
+  
+  
+  
+  
+    
+    <li><a class=" list-link" href="/posts/introduction/" title="Introduction">Introduction</a></li>
+  
+
+
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      
+      <div class="hero-area col-sm-12" id="hero-area" style='background-image: url(/images/default-hero.jpg);'>
+      </div>
+
+      
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/exia001_hu_a184b916d2edc497.jpg' alt="Author Image">
+          <h5 class="author-name">Exia Huang</h5>
+          <p class="text-muted">Monday, January 1, 1</p>
+        </div>
+        
+
+        <div class="title">
+          <h1></h1>
+        </div>
+
+        
+
+        
+        <div class="post-content" id="post-content">
+          <p><a href="https://docs.frappe.io/framework/user/en/api/document" target="_blank" rel="noopener">Document API</a></p>
+<p>在 Frappe 中，批量创建 <strong>Field（字段）</strong> 可以通过以下几种方式实现：</p>
+<h2 id="方法-1使用-python-脚本推荐"><strong>方法 1：使用 Python 脚本（推荐）</strong></h2>
+<p>Frappe 提供了 <code>frappe.get_doc()</code> 方法，可以用 Python 批量向 <strong>某个 DocType</strong> 添加多个字段（Field）。</p>
+<h3 id="示例批量添加字段到一个自定义-doctype"><strong>示例：批量添加字段到一个自定义 DocType</strong></h3>
+<pre tabindex="0"><code>import frappe
+
+def add_custom_fields():
+    doctype_name = &#34;YourDocType&#34;  # 替换为你的目标 DocType
+    fields = [
+        {&#34;fieldname&#34;: &#34;new_field_1&#34;, &#34;label&#34;: &#34;New Field 1&#34;, &#34;fieldtype&#34;: &#34;Data&#34;},
+        {&#34;fieldname&#34;: &#34;new_field_2&#34;, &#34;label&#34;: &#34;New Field 2&#34;, &#34;fieldtype&#34;: &#34;Int&#34;},
+        {&#34;fieldname&#34;: &#34;new_field_3&#34;, &#34;label&#34;: &#34;New Field 3&#34;, &#34;fieldtype&#34;: &#34;Date&#34;},
+    ]
+
+    for field in fields:
+        if not frappe.db.exists(&#34;Custom Field&#34;, {&#34;dt&#34;: doctype_name, &#34;fieldname&#34;: field[&#34;fieldname&#34;]}):
+            doc = frappe.get_doc({
+                &#34;doctype&#34;: &#34;Custom Field&#34;,
+                &#34;dt&#34;: doctype_name,  # 目标 DocType
+                &#34;fieldname&#34;: field[&#34;fieldname&#34;],
+                &#34;label&#34;: field[&#34;label&#34;],
+                &#34;fieldtype&#34;: field[&#34;fieldtype&#34;],
+                &#34;insert_after&#34;: &#34;description&#34;  # 你可以修改这个值
+            })
+            doc.insert()
+    
+    frappe.db.commit()
+    print(&#34;Fields added successfully!&#34;)
+
+# 运行该函数
+add_custom_fields()
+</code></pre><p>📌 <strong>说明</strong></p>
+<ul>
+<li><code>doctype_name</code>：指定要添加字段的目标 DocType。</li>
+<li><code>frappe.db.exists()</code>：避免重复创建字段。</li>
+<li><code>&quot;insert_after&quot;: &quot;description&quot;</code>：字段将被插入到 <code>description</code> 之后，可更改为其他字段名。</li>
+</ul>
+
+        </div>
+
+        
+        <div class="row ps-3 pe-3">
+        
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+        
+        
+        </div>
+
+
+
+      
+      <hr />
+        
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+
+
+<div class="row next-prev-navigator">
+  
+  
+</div>
+
+      <hr />
+
+      
+      
+
+      
+      
+
+      </div>
+    </div>
+  </div>
+  
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+      
+  <section class="toc-section" id="toc-section">
+    
+    <div class="toc-holder">
+      <h5 class="text-center ps-3">Table of Contents</h5>
+      <hr>
+      <div class="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#方法-1使用-python-脚本推荐"><strong>方法 1：使用 Python 脚本（推荐）</strong></a>
+      <ul>
+        <li><a href="#示例批量添加字段到一个自定义-doctype"><strong>示例：批量添加字段到一个自定义 DocType</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    </div>
+    
+  </section>
+
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+
+  
+  
+    
+    
+      
+    
+  
+
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start">
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Navigation</h5>
+          
+          <ul>
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#about">About</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#skills">Skills</a>
+                </li>
+              
+              
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#projects">Projects</a>
+                </li>
+              
+              
+              
+              
+              
+              
+            
+              
+            
+          </ul>
+          
+        </div>
+        
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Contact me:</h5>
+          <ul>
+            
+              
+                <li><a href=mailto:exia.dev@outlook.com target="_blank" rel="noopener">
+                  <span><i class="fas fa-envelope"></i></span> <span>exia.dev@outlook.com</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://github.com/exiahuang target="_blank" rel="noopener">
+                  <span><i class="fab fa-github"></i></span> <span>exiahuang</span>
+                </a></li>
+              
+            
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_b3360284c55cf72d.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2020 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/application.a25d0a72b149f87926690ec805b6bec8f78980aaf07d94b7e9adad6a0684c757.js" integrity="sha256-ol0KcrFJ&#43;HkmaQ7IBba&#43;yPeJgKrwfZS36a2tagaEx1c=" defer></script>
+
+
+    
+     
+
+    
+</body>
+</html>

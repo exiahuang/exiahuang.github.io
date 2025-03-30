@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+<link rel="stylesheet" href="/application.6a5cdf7499f781bae02ed80dbc345e1b18e8cf6108d1808a7d1fbbf08e5c006e.css" integrity="sha256-alzfdJn3gbrgLtgNvDReGxjoz2EI0YCKfR&#43;78I5cAG4=" />
+
+
+
+
+
+
+
+<meta property="og:url" content="https://exiahuang.github.io/posts/frappe/11-frappe-doctype-import-rest-api/">
+  <meta property="og:site_name" content="Exia.Huang">
+  <meta property="og:title" content="Exia.Huang">
+  <meta property="og:description" content="use rest api https://gist.github.com/vmatt/cdd3d20a7fd7f1cab8224e2b167e3c01
+import requests class DocTypeImporter: def __init__(self, url=&#34;http://127.0.0.1:8000/api&#34;, usr=&#34;&#34;, pwd=&#34;&#34;): self.s = requests.Session() self.base_url = url self.headers = {&#34;Content-Type&#34;: &#34;application/json&#34;,&#34;Accept&#34;: &#34;application/json&#34;} if usr and pwd: self.__login(usr, pwd) def __login(self, usr, pwd): response = self.s.post(f&#34;{self.base_url}/method/login&#34;, json={&#34;usr&#34;: usr,&#34;pwd&#34;: pwd}, headers=self.headers) return response def create_doc_type(self, doctype: str, module: str =&#34;Custom&#34;, fields:list=[]): payload = { &#34;name&#34;: doctype, &#34;module&#34;: module, &#34;custom&#34;: 1, &#34;allow_import&#34;: 1, &#34;doctype&#34;: &#34;DocType&#34;, &#34;actions&#34;: [], &#34;fields&#34;: fields, &#34;links&#34;: [], &#34;states&#34;: [] } response = self.s.post(f&#34;{self.base_url}/resource/DocType&#34;, json=payload, headers=self.headers) return response customApi = DocTypeImporter(&#34;http://127.0.0.1:8000/api/&#34;, usr=&#34;Administrator&#34;, pwd=&#34;...&#34;) fields = [ { &#34;fieldname&#34;: &#34;source_id&#34;, &#34;label&#34;: &#34;Source ID&#34;, &#34;fieldtype&#34;: &#34;Data&#34;, &#34;doctype&#34;: &#34;DocField&#34; } ] res = customApi.create_doc_type(&#34;Your Doc Type&#34;,fields=fields) print(res.json()) use frappe import frappe def create_custom_doctypes(): doctypes = [ { &#34;name&#34;: &#34;Custom DocType 1&#34;, &#34;module&#34;: &#34;erpnext&#34;, &#34;fields&#34;: [ {&#34;fieldname&#34;: &#34;field_1&#34;, &#34;label&#34;: &#34;Field 1&#34;, &#34;fieldtype&#34;: &#34;Data&#34;}, {&#34;fieldname&#34;: &#34;field_2&#34;, &#34;label&#34;: &#34;Field 2&#34;, &#34;fieldtype&#34;: &#34;Int&#34;} ] }, { &#34;name&#34;: &#34;Custom DocType 2&#34;, &#34;module&#34;: &#34;erpnext&#34;, &#34;fields&#34;: [ {&#34;fieldname&#34;: &#34;field_3&#34;, &#34;label&#34;: &#34;Field 3&#34;, &#34;fieldtype&#34;: &#34;Date&#34;}, {&#34;fieldname&#34;: &#34;field_4&#34;, &#34;label&#34;: &#34;Field 4&#34;, &#34;fieldtype&#34;: &#34;Check&#34;} ] } ] for doctype in doctypes: doc = frappe.get_doc({ &#34;doctype&#34;: &#34;DocType&#34;, &#34;name&#34;: doctype[&#34;name&#34;], &#34;module&#34;: doctype[&#34;module&#34;], &#34;custom&#34;: 1, # 设为 1 表示自定义 DocType &#34;fields&#34;: doctype[&#34;fields&#34;] }) doc.insert() print(f&#34;Created DocType: {doctype[&#39;name&#39;]}&#34;) # 运行脚本 create_custom_doctypes()">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Exia.Huang">
+  <meta name="twitter:description" content="use rest api https://gist.github.com/vmatt/cdd3d20a7fd7f1cab8224e2b167e3c01
+import requests class DocTypeImporter: def __init__(self, url=&#34;http://127.0.0.1:8000/api&#34;, usr=&#34;&#34;, pwd=&#34;&#34;): self.s = requests.Session() self.base_url = url self.headers = {&#34;Content-Type&#34;: &#34;application/json&#34;,&#34;Accept&#34;: &#34;application/json&#34;} if usr and pwd: self.__login(usr, pwd) def __login(self, usr, pwd): response = self.s.post(f&#34;{self.base_url}/method/login&#34;, json={&#34;usr&#34;: usr,&#34;pwd&#34;: pwd}, headers=self.headers) return response def create_doc_type(self, doctype: str, module: str =&#34;Custom&#34;, fields:list=[]): payload = { &#34;name&#34;: doctype, &#34;module&#34;: module, &#34;custom&#34;: 1, &#34;allow_import&#34;: 1, &#34;doctype&#34;: &#34;DocType&#34;, &#34;actions&#34;: [], &#34;fields&#34;: fields, &#34;links&#34;: [], &#34;states&#34;: [] } response = self.s.post(f&#34;{self.base_url}/resource/DocType&#34;, json=payload, headers=self.headers) return response customApi = DocTypeImporter(&#34;http://127.0.0.1:8000/api/&#34;, usr=&#34;Administrator&#34;, pwd=&#34;...&#34;) fields = [ { &#34;fieldname&#34;: &#34;source_id&#34;, &#34;label&#34;: &#34;Source ID&#34;, &#34;fieldtype&#34;: &#34;Data&#34;, &#34;doctype&#34;: &#34;DocField&#34; } ] res = customApi.create_doc_type(&#34;Your Doc Type&#34;,fields=fields) print(res.json()) use frappe import frappe def create_custom_doctypes(): doctypes = [ { &#34;name&#34;: &#34;Custom DocType 1&#34;, &#34;module&#34;: &#34;erpnext&#34;, &#34;fields&#34;: [ {&#34;fieldname&#34;: &#34;field_1&#34;, &#34;label&#34;: &#34;Field 1&#34;, &#34;fieldtype&#34;: &#34;Data&#34;}, {&#34;fieldname&#34;: &#34;field_2&#34;, &#34;label&#34;: &#34;Field 2&#34;, &#34;fieldtype&#34;: &#34;Int&#34;} ] }, { &#34;name&#34;: &#34;Custom DocType 2&#34;, &#34;module&#34;: &#34;erpnext&#34;, &#34;fields&#34;: [ {&#34;fieldname&#34;: &#34;field_3&#34;, &#34;label&#34;: &#34;Field 3&#34;, &#34;fieldtype&#34;: &#34;Date&#34;}, {&#34;fieldname&#34;: &#34;field_4&#34;, &#34;label&#34;: &#34;Field 4&#34;, &#34;fieldtype&#34;: &#34;Check&#34;} ] } ] for doctype in doctypes: doc = frappe.get_doc({ &#34;doctype&#34;: &#34;DocType&#34;, &#34;name&#34;: doctype[&#34;name&#34;], &#34;module&#34;: doctype[&#34;module&#34;], &#34;custom&#34;: 1, # 设为 1 表示自定义 DocType &#34;fields&#34;: doctype[&#34;fields&#34;] }) doc.insert() print(f&#34;Created DocType: {doctype[&#39;name&#39;]}&#34;) # 运行脚本 create_custom_doctypes()">
+
+    
+    
+<meta name="description" content="" />
+
+
+
+    
+
+    
+        
+            
+            
+                
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-02B7V57RLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( null ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-02B7V57RLL');
+        }
+      </script>
+            
+
+            
+            
+
+            
+            
+
+            
+            
+
+            
+
+            
+
+            
+        
+    
+
+
+
+
+
+    <script integrity="sha256-DO4ugzEwhTW1Id1UIWn0gUJWaebCYOypeTit6LW4QB4=">
+     let theme = localStorage.getItem('theme-scheme') || localStorage.getItem('darkmode:color-scheme') || 'light'
+if (theme === 'system') {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme = 'dark'
+  } else {
+    theme = 'light'
+  }
+}
+document.documentElement.setAttribute('data-theme', theme)
+
+    </script>
+    
+  </head>
+
+  <body class="type-posts kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Exia.Huang</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
+        
+          
+          
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#about">About</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#skills">Skills</a>
+                </li>
+              
+            
+            
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#projects">Projects</a>
+                </li>
+              
+            
+            
+            
+            
+            
+            
+          
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  
+</nav>
+
+
+
+      
+      
+  <section class="sidebar-section" id="sidebar-section">
+    <div class="sidebar-holder">
+      <div class="sidebar" id="sidebar">
+        <form class="mx-auto" method="get" action="/search">
+          <input type="text" name="keyword" value="" placeholder="Search" data-search="" id="search-box" />
+        </form>
+        <div class="sidebar-tree">
+          <ul class="tree" id="tree">
+            <li id="list-heading"><a href="/posts/" data-filter="all">Posts</a></li>
+            <div class="subtree">
+                
+  
+  
+  
+  
+  
+    
+    <li><a class=" list-link" href="/posts/introduction/" title="Introduction">Introduction</a></li>
+  
+
+
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      
+      <div class="hero-area col-sm-12" id="hero-area" style='background-image: url(/images/default-hero.jpg);'>
+      </div>
+
+      
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/exia001_hu_a184b916d2edc497.jpg' alt="Author Image">
+          <h5 class="author-name">Exia Huang</h5>
+          <p class="text-muted">Monday, January 1, 1</p>
+        </div>
+        
+
+        <div class="title">
+          <h1></h1>
+        </div>
+
+        
+
+        
+        <div class="post-content" id="post-content">
+          <h1 id="use-rest-api">use rest api</h1>
+<p><a href="https://gist.github.com/vmatt/cdd3d20a7fd7f1cab8224e2b167e3c01" target="_blank" rel="noopener">https://gist.github.com/vmatt/cdd3d20a7fd7f1cab8224e2b167e3c01</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DocTypeImporter</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://127.0.0.1:8000/api&#34;</span>, usr<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>, pwd<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>s <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>Session()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>base_url <span style="color:#f92672">=</span> url
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Content-Type&#34;</span>: <span style="color:#e6db74">&#34;application/json&#34;</span>,<span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;application/json&#34;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> usr <span style="color:#f92672">and</span> pwd:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>__login(usr, pwd)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__login</span>(self, usr, pwd):
+</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>s<span style="color:#f92672">.</span>post(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>base_url<span style="color:#e6db74">}</span><span style="color:#e6db74">/method/login&#34;</span>, json<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;usr&#34;</span>: usr,<span style="color:#e6db74">&#34;pwd&#34;</span>: pwd}, headers<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>headers)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_doc_type</span>(self, doctype: str, module: str <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Custom&#34;</span>, fields:list<span style="color:#f92672">=</span>[]):
+</span></span><span style="display:flex;"><span>        payload <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;name&#34;</span>: doctype,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;module&#34;</span>: module,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;custom&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;allow_import&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;doctype&#34;</span>: <span style="color:#e6db74">&#34;DocType&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;actions&#34;</span>: [],
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;fields&#34;</span>: fields,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;links&#34;</span>: [],
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;states&#34;</span>: []
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>s<span style="color:#f92672">.</span>post(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>base_url<span style="color:#e6db74">}</span><span style="color:#e6db74">/resource/DocType&#34;</span>, json<span style="color:#f92672">=</span>payload, headers<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>headers)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>customApi <span style="color:#f92672">=</span> DocTypeImporter(<span style="color:#e6db74">&#34;http://127.0.0.1:8000/api/&#34;</span>, usr<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Administrator&#34;</span>, pwd<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;...&#34;</span>)
+</span></span><span style="display:flex;"><span>fields <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;fieldname&#34;</span>: <span style="color:#e6db74">&#34;source_id&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;Source ID&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;fieldtype&#34;</span>: <span style="color:#e6db74">&#34;Data&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;doctype&#34;</span>: <span style="color:#e6db74">&#34;DocField&#34;</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>res <span style="color:#f92672">=</span> customApi<span style="color:#f92672">.</span>create_doc_type(<span style="color:#e6db74">&#34;Your Doc Type&#34;</span>,fields<span style="color:#f92672">=</span>fields)
+</span></span><span style="display:flex;"><span>print(res<span style="color:#f92672">.</span>json())
+</span></span></code></pre></div><h1 id="use-frappe">use frappe</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> frappe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_custom_doctypes</span>():
+</span></span><span style="display:flex;"><span>    doctypes <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Custom DocType 1&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;module&#34;</span>: <span style="color:#e6db74">&#34;erpnext&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;fields&#34;</span>: [
+</span></span><span style="display:flex;"><span>                {<span style="color:#e6db74">&#34;fieldname&#34;</span>: <span style="color:#e6db74">&#34;field_1&#34;</span>, <span style="color:#e6db74">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;Field 1&#34;</span>, <span style="color:#e6db74">&#34;fieldtype&#34;</span>: <span style="color:#e6db74">&#34;Data&#34;</span>},
+</span></span><span style="display:flex;"><span>                {<span style="color:#e6db74">&#34;fieldname&#34;</span>: <span style="color:#e6db74">&#34;field_2&#34;</span>, <span style="color:#e6db74">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;Field 2&#34;</span>, <span style="color:#e6db74">&#34;fieldtype&#34;</span>: <span style="color:#e6db74">&#34;Int&#34;</span>}
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Custom DocType 2&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;module&#34;</span>: <span style="color:#e6db74">&#34;erpnext&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;fields&#34;</span>: [
+</span></span><span style="display:flex;"><span>                {<span style="color:#e6db74">&#34;fieldname&#34;</span>: <span style="color:#e6db74">&#34;field_3&#34;</span>, <span style="color:#e6db74">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;Field 3&#34;</span>, <span style="color:#e6db74">&#34;fieldtype&#34;</span>: <span style="color:#e6db74">&#34;Date&#34;</span>},
+</span></span><span style="display:flex;"><span>                {<span style="color:#e6db74">&#34;fieldname&#34;</span>: <span style="color:#e6db74">&#34;field_4&#34;</span>, <span style="color:#e6db74">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;Field 4&#34;</span>, <span style="color:#e6db74">&#34;fieldtype&#34;</span>: <span style="color:#e6db74">&#34;Check&#34;</span>}
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> doctype <span style="color:#f92672">in</span> doctypes:
+</span></span><span style="display:flex;"><span>        doc <span style="color:#f92672">=</span> frappe<span style="color:#f92672">.</span>get_doc({
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;doctype&#34;</span>: <span style="color:#e6db74">&#34;DocType&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;name&#34;</span>: doctype[<span style="color:#e6db74">&#34;name&#34;</span>],
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;module&#34;</span>: doctype[<span style="color:#e6db74">&#34;module&#34;</span>],
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;custom&#34;</span>: <span style="color:#ae81ff">1</span>,  <span style="color:#75715e"># 设为 1 表示自定义 DocType</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;fields&#34;</span>: doctype[<span style="color:#e6db74">&#34;fields&#34;</span>]
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>        doc<span style="color:#f92672">.</span>insert()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Created DocType: </span><span style="color:#e6db74">{</span>doctype[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 运行脚本</span>
+</span></span><span style="display:flex;"><span>create_custom_doctypes()
+</span></span></code></pre></div>
+        </div>
+
+        
+        <div class="row ps-3 pe-3">
+        
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+        
+        
+        </div>
+
+
+
+      
+      <hr />
+        
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+
+
+<div class="row next-prev-navigator">
+  
+  
+</div>
+
+      <hr />
+
+      
+      
+
+      
+      
+
+      </div>
+    </div>
+  </div>
+  
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+      
+  <section class="toc-section" id="toc-section">
+    
+    <div class="toc-holder">
+      <h5 class="text-center ps-3">Table of Contents</h5>
+      <hr>
+      <div class="toc">
+        <nav id="TableOfContents"></nav>
+      </div>
+    </div>
+    
+  </section>
+
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+
+  
+  
+    
+    
+      
+    
+  
+
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start">
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Navigation</h5>
+          
+          <ul>
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#about">About</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#skills">Skills</a>
+                </li>
+              
+              
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://exiahuang.github.io/#projects">Projects</a>
+                </li>
+              
+              
+              
+              
+              
+              
+            
+              
+            
+          </ul>
+          
+        </div>
+        
+        
+        <div class="col-md-4 col-sm-12">
+          <h5>Contact me:</h5>
+          <ul>
+            
+              
+                <li><a href=mailto:exia.dev@outlook.com target="_blank" rel="noopener">
+                  <span><i class="fas fa-envelope"></i></span> <span>exia.dev@outlook.com</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://github.com/exiahuang target="_blank" rel="noopener">
+                  <span><i class="fab fa-github"></i></span> <span>exiahuang</span>
+                </a></li>
+              
+            
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_b3360284c55cf72d.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2020 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/application.a25d0a72b149f87926690ec805b6bec8f78980aaf07d94b7e9adad6a0684c757.js" integrity="sha256-ol0KcrFJ&#43;HkmaQ7IBba&#43;yPeJgKrwfZS36a2tagaEx1c=" defer></script>
+
+
+    
+     
+
+    
+</body>
+</html>
